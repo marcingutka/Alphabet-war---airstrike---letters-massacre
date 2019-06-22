@@ -1,0 +1,69 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int isLeft(char s, std::vector<std::pair<char, int>>& v)
+{
+  for(auto& i: v)
+  {
+    if(i.first == s) return i.second;
+  }
+  return 0;
+}
+
+int isRight(char s, std::vector<std::pair<char, int>>& v)
+{
+  for(auto& i: v)
+  {
+    if(i.first == s) return i.second;
+  }
+  return 0;
+}
+
+string alphabetWar(string fight)
+{
+    std::vector<std::pair<char, int>> vleft;
+    std::vector<std::pair<char, int>> vright;
+    
+    vleft.push_back(std::make_pair('w',4));
+    vleft.push_back(std::make_pair('p',3));
+    vleft.push_back(std::make_pair('b',2));
+    vleft.push_back(std::make_pair('s',1));
+    
+    vright.push_back(std::make_pair('m',4));
+    vright.push_back(std::make_pair('q',3));
+    vright.push_back(std::make_pair('d',2));
+    vright.push_back(std::make_pair('z',1));
+       
+    int l = 0;
+    int r = 0;
+    
+    for(int i = 0; i<=fight.length(); ++i)
+    {
+      if (fight[i] == '*')
+      {
+        if (i != 0) fight[i-1] = '_';
+        if ((i != fight.length()) && (fight[i+1] != '*')) fight[i+1] = '_';
+      }
+    }
+    
+    int wsk = 0;
+    
+    for(int i = 0; i<=fight.length(); ++i)
+    {
+      wsk = isLeft(fight[i], vleft);
+      if (wsk > 0)
+      {
+        l +=wsk;
+        continue;
+      }
+      wsk = isRight(fight[i], vright);
+      r += wsk;
+      wsk = 0;
+    }
+    
+    if (l>r) return "Left side wins!";
+    else if (l<r) return "Right side wins!";
+    else return "Let's fight again!";
+}
